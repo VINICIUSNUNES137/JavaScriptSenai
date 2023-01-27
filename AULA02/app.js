@@ -61,6 +61,9 @@ entradaDados.question('Digite o nome do aluno:\n', function(nome) {
                      * OU    ||  OR
                      * E     &&  AND
                      * NÃO   !   NOT
+                     * 
+                     * mensagem de erro 0-10 
+                     * aprovado e reprovado 7
                      */
 
                     //VALIDAÇÃO DE ENTRADAS VAZIAS
@@ -68,10 +71,18 @@ entradaDados.question('Digite o nome do aluno:\n', function(nome) {
                         console.log('ERRO: É necessário digitar todos os valores')
                     } else if (isNaN(primeiraNota) || isNaN(segundaNota) || isNaN(terceiraNota) || isNaN(quartaNota)) {
                         console.log('ERRO: O texto digitado não é um número')
+
+                    } else if (primeiraNota < 0 || primeiraNota > 10 && segundaNota < 0 || segundaNota > 10 && terceiraNota < 0 || terceiraNota > 10 && quartaNota < 0 || quartaNota > 10) {
+                        console.log('ERRO: A nota deve ser entre 0 a 10')
                     } else {
                         media = (Number(primeiraNota) + Number(segundaNota) + Number(terceiraNota) + Number(quartaNota)) / 4
 
                         console.log('A média é: ', media)
+                        if (media >= 7) {
+                            console.log('APROVADO')
+                        } else {
+                            console.log('REPROVADO')
+                        }
                     }
                 })
             })
