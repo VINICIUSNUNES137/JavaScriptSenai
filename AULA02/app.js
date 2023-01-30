@@ -69,15 +69,16 @@ entradaDados.question('Digite o nome do aluno:\n', function(nome) {
                     //VALIDAÇÃO DE ENTRADAS VAZIAS
                     if (primeiraNota == '' || segundaNota == '' || terceiraNota == '' || quartaNota == '') {
                         console.log('ERRO: É necessário digitar todos os valores')
+                            //VALIDAÇÃO DE ENTRADAS DE DADOS NÃO NUMERICAS
                     } else if (isNaN(primeiraNota) || isNaN(segundaNota) || isNaN(terceiraNota) || isNaN(quartaNota)) {
                         console.log('ERRO: O texto digitado não é um número')
-
+                            //VALIDAÇÃO DE ENTRADAS DE DADOS ENTRE 0 ATÉ 10
                     } else if (primeiraNota < 0 || primeiraNota > 10 && segundaNota < 0 || segundaNota > 10 && terceiraNota < 0 || terceiraNota > 10 && quartaNota < 0 || quartaNota > 10) {
                         console.log('ERRO: A nota deve ser entre 0 a 10')
                     } else {
                         media = (Number(primeiraNota) + Number(segundaNota) + Number(terceiraNota) + Number(quartaNota)) / 4
 
-                        console.log('A média é: ', media)
+                        console.log('A média é: ', media.toFixed(1)) // to fixed é pra determinar a qtd de casas após a virgula
                         if (media >= 7) {
                             console.log('APROVADO')
                         } else {
