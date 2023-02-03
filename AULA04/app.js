@@ -11,6 +11,7 @@
  * 
  * 
  * *******************************************************************/
+var matematica = require('./modulo/calculadora.js')
 
 var readline = require('readline')
 const { isUndefined } = require('util')
@@ -41,27 +42,11 @@ entradaDados.question('Valor 1: \n', function(numero1) {
                 console.log('ERRO: Não é possível processar o cálculo sem a entrada de valores numéricos')
                 entradaDados.close()
             } else {
-                if (operacao == 'SOMAR') {
-                    resultado = parseFloat(valor1) + parseFloat(valor2)
-                } else if (operacao == 'SUBTRAIR') {
-                    resultado = parseFloat(valor1) - parseFloat(valor2)
-                } else if (operacao == 'MULTIPLICAR') {
-                    resultado = parseFloat(valor1) * parseFloat(valor2)
-                } else if (operacao == 'DIVIDIR') {
-                    if (valor2 == 0) {
-                        console.log('Não é possível dividir por 0')
-                        entradaDados.close()
-                    } else {
-                        resultado = parseFloat(valor1) / parseFloat(valor2)
-                    }
-                } else {
-                    console.log('ERRO: A operação informada não é válida. Confira a entrada.')
-                }
-                if (resultado != undefined) {
-                    console.log(resultado)
-                }
+                resultado = matematica.calcular(valor1, valor2, operacao)
+                console.log(resultado)
                 entradaDados.close()
             }
+
         })
     })
 })
