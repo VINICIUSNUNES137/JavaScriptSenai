@@ -11,8 +11,10 @@
  * 
  * 
  * *******************************************************************/
-var matematica = require('./modulo/calculadora.js')
 
+//import da nossa biblioteca da calculadora
+var matematica = require('./modulo/calculadora.js')
+    //import da biblioteca de entrada de dados
 var readline = require('readline')
 const { isUndefined } = require('util')
 entradaDados = readline.createInterface({
@@ -42,9 +44,16 @@ entradaDados.question('Valor 1: \n', function(numero1) {
                 console.log('ERRO: Não é possível processar o cálculo sem a entrada de valores numéricos')
                 entradaDados.close()
             } else {
+                //chama a função para calcular, encaminhando os valores como argumento
                 resultado = matematica.calcular(valor1, valor2, operacao)
-                console.log(resultado)
-                entradaDados.close()
+                if (resultado == false) {
+                    entradaDados.close()
+                } else {
+                    console.log(resultado)
+                    entradaDados.close()
+                }
+
+
             }
 
         })

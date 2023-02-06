@@ -13,6 +13,7 @@ function calcular(numero1, numero2, tipoCalculo) {
     let operacao = tipoCalculo.toUpperCase()
 
     let resultado
+    let status = true //variavel boolean para identificar o status do calculo
 
     if (operacao == 'SOMAR') {
         resultado = valor1 + valor2
@@ -23,17 +24,18 @@ function calcular(numero1, numero2, tipoCalculo) {
     } else if (operacao == 'DIVIDIR') {
         if (valor2 == 0) {
             console.log('Não é possível dividir por 0')
-            entradaDados.close()
+            status = false
         } else {
             resultado = valor1 / valor2
         }
     } else {
         console.log('ERRO: A operação informada não é válida. Confira a entrada.')
+        status = false
     }
     if (resultado != undefined) {
         return resultado
     } else {
-        return false
+        return status
     }
 }
 
