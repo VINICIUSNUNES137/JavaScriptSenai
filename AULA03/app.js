@@ -1,3 +1,18 @@
+/*****************************DOC**************************************
+ * Objetivo: Realizar uma calculadora
+ * Data: 30/01/2023
+ * Autor: Vinicius Nunes
+ * Versão: 1.0
+ * *******************************************************************/
+
+/*****************************INFOS************************************
+ * VAR: ESCOPO GLOBAL - VARIÁVEL
+ * LET: ESCOPO LOCAL - VARIÁVEL
+ * CONST: CONSTANTE - NÃO VARIA
+ * 
+ * *******************************************************************/
+
+
 console.log('*****************SISTEMA DE CÁLCULO*****************')
     //IMPORT
 var readline = require('readline')
