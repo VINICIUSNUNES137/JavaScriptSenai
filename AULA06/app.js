@@ -114,13 +114,17 @@ const removerElementos = function(nomeProduto) {
     if (indice >= 0) {
         //SPLICE - Permite remover um elemento através do indice
         novosProdutos.splice(indice, 1)
-        status = novosProdutos
+        status = true
 
     } else {
         status = false
     }
 
-    return status
+    if (status) {
+        return novosProdutos
+    } else {
+        return status
+    }
 }
 
 console.log(listaProdutos);
