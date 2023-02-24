@@ -105,9 +105,9 @@ const filtrandoElementos = function() {
     console.log(novosProdutos)
 }
 
-const removerElementos = function(nomeProduto) {
+const removerElementos = function(array, nomeProduto) {
     let nome = nomeProduto
-    const novosProdutos = listaProdutos.slice()
+    const novosProdutos = array.slice()
     let indice = novosProdutos.indexOf(nome)
     let status
 
@@ -128,7 +128,7 @@ const removerElementos = function(nomeProduto) {
 }
 
 console.log(listaProdutos);
-console.log(removerElementos('MOUSE'));
+console.log(removerElementos(listaProdutos, 'MOUSE'));
 
 
 
