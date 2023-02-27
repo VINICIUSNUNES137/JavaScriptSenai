@@ -1,6 +1,7 @@
 /*****************************DOC**************************************
  * Objetivo: Trabalhar com Array
  * Data: 24/02/2023
+ * Atualizado: 27/02/2023
  * Autor: Vinicius Nunes
  * Versão: 1.0
  * *******************************************************************/
@@ -27,6 +28,21 @@ const listaProdutos = [
     'NOTEBOOK',
     'FONE'
 ]
+
+const listaProdutosJSON = {}
+
+/* 
+    JSON DENTRO DE UM ARRAY
+
+produtos = {
+    [
+        { nome : 'TECLADO', cor : 'PRETO', qtde : 50 },
+        { nome : 'MOOUSE', cor : 'BRANCO', qtde : 60 },
+        { nome : 'MONITOR', cor : 'PRETO', qtde : 30 }
+    ]
+}
+
+*/
 
 const manipulandoElementos = function() {
 
@@ -127,10 +143,73 @@ const removerElementos = function(array, nomeProduto) {
     }
 }
 
-console.log(listaProdutos);
-console.log(removerElementos(listaProdutos, 'MOUSE'));
-
-
-
+// console.log(listaProdutos);
+// console.log(removerElementos(listaProdutos, 'MOUSE'));
 // console.log(listaProdutos)
 // console.log(removerElementos('TECLADO'))
+
+/*******************************
+ **********27/02/2023***********
+ *******************************/
+
+const listagemProdutos = function() {
+
+    let listProdutosJSON = {}
+    let listProdutos = [
+        { nome: 'Teclado', valor: 200, quantidade: 50 },
+        { nome: 'Monitor', valor: 1000, quantidade: 70 },
+        { nome: 'Mouse', valor: 100, quantidade: 350 }
+    ]
+
+    let listCores = ['Branco', 'Preto', 'Cinza']
+    let listTipoTeclados = ['Mecânico', 'Semi-Mecânico', 'Membrana']
+    let listTipoMonitores = ['LCD', 'Full-HD', '4K', 'OLED']
+
+    listProdutos[0].cores = listCores
+    listProdutos[0].tipos = listTipoTeclados
+
+    listProdutos[1].cores = listCores
+    listProdutos[1].tipos = listTipoMonitores
+
+
+    listProdutos[2].cores = listCores
+
+    listProdutosJSON.produtos = listProdutos
+
+    let qtdeDeItens = listProdutosJSON.produtos.length
+
+    // console.log(qtdeDeItens)
+
+
+    listProdutosJSON.produtos.forEach(function(dadosProduto) {
+        console.log('*****************')
+        console.log('NOME: ' + dadosProduto.nome)
+        console.log('VALOR: ' + dadosProduto.valor)
+
+        if (dadosProduto.cores != undefined) {
+            dadosProduto.cores.forEach(function(dadosCores) {
+                console.log('**' + dadosCores)
+            })
+        }
+        //validação para quando não tiver tipo
+        if (dadosProduto.tipos != undefined) {
+            dadosProduto.tipos.forEach(function(dadosTipo) {
+                console.log('***' + dadosTipo)
+            })
+        }
+    })
+}
+
+// listaProdutosJSON.produtos = listaProdutos
+// listaProdutosJSON.clientes = listaNomes
+// console.log(listaProdutosJSON)
+// console.log(listProdutosJSON)
+// console.log('nome: ' + listProdutosJSON.produtos[1].nome)
+// console.log('valor: ' + listProdutosJSON.produtos[1].valor)
+// console.log('cor: ' + listProdutosJSON.produtos[1].cores[1])
+
+
+
+
+
+listagemProdutos()
