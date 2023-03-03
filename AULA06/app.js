@@ -188,13 +188,13 @@ const listagemProdutos = function() {
 
         if (dadosProduto.cores != undefined) {
             dadosProduto.cores.forEach(function(dadosCores) {
-                console.log('**' + dadosCores)
+                console.log('COR: ' + dadosCores)
             })
         }
         //validação para quando não tiver tipo
         if (dadosProduto.tipos != undefined) {
             dadosProduto.tipos.forEach(function(dadosTipo) {
-                console.log('***' + dadosTipo)
+                console.log('TIPO: ' + dadosTipo)
             })
         }
     })
