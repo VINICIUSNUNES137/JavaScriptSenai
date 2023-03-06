@@ -22473,6 +22473,7 @@ function getListaDeEstados() {
 
     let uf = []
 
+
     estadosCidades.estados.forEach(function(estado) {
             uf.push(estado.sigla)
         })
@@ -22488,23 +22489,15 @@ function getDadosEstado(ufDoEstado) {
 
     estadosCidades.estados.forEach(function(estado) {
     if(estado.sigla == ufDoEstado){
-        // console.log(estado.sigla)
-        // console.log(estado.nome)
-        // console.log(estado.regiao)
+
         listaDados = {uf: estado.sigla, descricao: estado.nome, capital: estado.capital, regiao: estado.regiao}
-        // listaDados = (estado.nome: nome)
-        // listaDados = (estado.regiao: regiao)
-        // listaDados.push(estado.regiao)
       }
 
     })
     return listaDados
 
 }
-// console.log(getCapitalEstado(SP))
-// getDadosEstado('AL')
 
-// console.log(getListaDeEstados('SP'))
 
 function getCapitalEstado(ufDoEstado){
     let listaDados = {}
@@ -22526,19 +22519,61 @@ function getEstadosRegiao(regiaoPais){
 
     let jsonEstadosRegiao = {}
     let estadoVer = []
+    let jsonFilho = {}
 
 
     estadosCidades.estados.forEach(function(estado) {
     if(estado.regiao == regiaoPais){
-        estadoVer.push(estado.sigla, estado.nome, estado.capital)
-    }
-    
+        jsonFilho = {uf: estado.sigla, descricao: estado.nome}
+        estadoVer.push(jsonFilho)
+        jsonEstadosRegiao = {regiao: regiaoPais, estados: estadoVer}
+    }     
     })
-    jsonEstadosRegiao = {regiao: regiaoPais, estados: estadoVer}
-
     return jsonEstadosRegiao
 
 
 }
 
-console.log(getEstadosRegiao('Sul'))
+function getCapitalPais(){
+    let capitalArray = []
+    let filhoJson = {}
+
+
+    estadosCidades.estados.forEach(function(estado){
+    if(estado.capital_pais != undefined){
+        filhoJson = {capital_atual: estado.capital_pais.capital, 
+            uf: estado.sigla, 
+            descricao: estado.nome, 
+            capital: estado.capital, 
+            regiao: estado.regiao, 
+            estado_pais_ano_inicio: estado.capital_pais.ano_inicio,
+            estado_pais_ano_termino: estado.capital_pais.ano_fim
+        }
+        capitalArray.push(filhoJson)
+    }
+})
+let paiJson = {capitais: capitalArray}
+return paiJson
+}
+
+function getCidades(sigla){
+    let paiJson = {}    
+    let cidadesGuardar = []
+
+    estadosCidades.estados.forEach(function(estado){
+        if(estado.sigla == sigla){
+            // paiJson = {}
+
+            estado.cidades.forEach(function(cidades){
+                cidadesGuardar.push(cidades.nome)
+            })
+            paiJson = {uf: estado.sigla, descricao: estado.nome, quantidade_cidades: estado.cidades.length, cidades: cidadesGuardar}
+        }
+    })
+
+    return paiJson
+}
+
+
+
+console.log(getCidades('SP'))
