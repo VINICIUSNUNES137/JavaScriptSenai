@@ -22574,6 +22574,11 @@ function getCidades(sigla){
     return paiJson
 }
 
-
-
-console.log(getCidades('SP'))
+module.exports = {
+    getListaDeEstados,
+    getDadosEstado,
+    getCapitalEstado,
+    getEstadosRegiao,
+    getCapitalPais,
+    getCidades
+}
