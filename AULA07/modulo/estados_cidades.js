@@ -22473,70 +22473,112 @@ function getListaDeEstados() {
 
     let uf = []
 
-
     estadosCidades.estados.forEach(function(estado) {
-            uf.push(estado.sigla)
+            uf.push(estado.sigla.toUpperCase())
         })
         //adicionar o array dentro do json
     let jsonEstado = { uf: uf, quantidade: estadosCidades.estados.length }
+
+    
+
     return jsonEstado
 
 }
 
 // console.log(getListaDeEstados())
-function getDadosEstado(ufDoEstado) {
+function getDadosEstado(estadoUf) {
     let listaDados = {}
+    let status = false
+    let ufDoEstado = estadoUf.toUpperCase()
 
     estadosCidades.estados.forEach(function(estado) {
-    if(estado.sigla == ufDoEstado){
 
-        listaDados = {uf: estado.sigla, descricao: estado.nome, capital: estado.capital, regiao: estado.regiao}
-      }
+    
+        if(estado.sigla == ufDoEstado){
+
+            listaDados = {uf: estado.sigla, descricao: estado.nome, capital: estado.capital, regiao: estado.regiao}
+            status = true
+
+        }
 
     })
-    return listaDados
 
+
+    if(status == true){
+        return listaDados
+    }else{    
+        return status
+    }
 }
 
+// console.log(getDadosEstado('SP'));
 
-function getCapitalEstado(ufDoEstado){
+function getCapitalEstado(estadoUf){
     let listaDados = {}
+    let status = false
+    let ufDoEstado = estadoUf.toUpperCase()
+
 
     estadosCidades.estados.forEach(function(estado) {
     if(estado.sigla == ufDoEstado){
 
         listaDados = {uf: estado.sigla, descricao: estado.nome, capital: estado.capital}
- 
+        status = true
+
       }
 
     })
-    return listaDados
+
+    
+    if(status == true){
+        return listaDados
+    }else{    
+        return status
+    }
 
 }
 
 
-function getEstadosRegiao(regiaoPais){
+
+
+//console.log(getCapitalEstado('mg'))
+
+
+function getEstadosRegiao(paisRegiao){
+
+    let regiaoPais = paisRegiao[0].toUpperCase() + paisRegiao.substring(1).toLowerCase()
 
     let jsonEstadosRegiao = {}
     let estadoVer = []
     let jsonFilho = {}
-
+    let status = false
 
     estadosCidades.estados.forEach(function(estado) {
     if(estado.regiao == regiaoPais){
         jsonFilho = {uf: estado.sigla, descricao: estado.nome}
         estadoVer.push(jsonFilho)
         jsonEstadosRegiao = {regiao: regiaoPais, estados: estadoVer}
+        status = true
+
     }     
     })
-    return jsonEstadosRegiao
+
+    if(status == true){
+        return jsonEstadosRegiao
+    }else{    
+        return status
+    }
 
 
 }
 
+// console.log(getEstadosRegiao('Sul'))
+
+
 function getCapitalPais(){
     let capitalArray = []
     let filhoJson = {}
+    let status = false
 
 
     estadosCidades.estados.forEach(function(estado){
@@ -22548,13 +22590,22 @@ function getCapitalPais(){
             regiao: estado.regiao, 
             estado_pais_ano_inicio: estado.capital_pais.ano_inicio,
             estado_pais_ano_termino: estado.capital_pais.ano_fim
+
         }
         capitalArray.push(filhoJson)
+        status = true
+
     }
 })
 let paiJson = {capitais: capitalArray}
-return paiJson
+
+if(status == true){
+    return paiJson
+}else{    
+    return status
 }
+}
+
 
 function getCidades(sigla){
     let paiJson = {}    
