@@ -22468,7 +22468,6 @@ var estadosCidades = { //
 
 
 // console.log(estadosCidades.estados[1].nome)
-
 function getListaDeEstados() {
 
     let uf = []
@@ -22512,7 +22511,6 @@ function getDadosEstado(estadoUf) {
 }
 
 // console.log(getDadosEstado('SP'));
-
 function getCapitalEstado(estadoUf){
     let listaDados = {}
     let status = false
@@ -22538,12 +22536,7 @@ function getCapitalEstado(estadoUf){
 
 }
 
-
-
-
 //console.log(getCapitalEstado('mg'))
-
-
 function getEstadosRegiao(paisRegiao){
 
     let regiaoPais = paisRegiao[0].toUpperCase() + paisRegiao.substring(1).toLowerCase()
@@ -22573,8 +22566,6 @@ function getEstadosRegiao(paisRegiao){
 }
 
 // console.log(getEstadosRegiao('Sul'))
-
-
 function getCapitalPais(){
     let capitalArray = []
     let filhoJson = {}
@@ -22607,9 +22598,11 @@ if(status == true){
 }
 
 
-function getCidades(sigla){
+function getCidades(uf){
+    let sigla = uf.toUpperCase()
     let paiJson = {}    
     let cidadesGuardar = []
+    let status = false
 
     estadosCidades.estados.forEach(function(estado){
         if(estado.sigla == sigla){
@@ -22619,10 +22612,16 @@ function getCidades(sigla){
                 cidadesGuardar.push(cidades.nome)
             })
             paiJson = {uf: estado.sigla, descricao: estado.nome, quantidade_cidades: estado.cidades.length, cidades: cidadesGuardar}
+
+            status = true
         }
     })
 
-    return paiJson
+    if(status == true){
+        return paiJson
+    }else{    
+        return status
+    }
 }
 
 module.exports = {

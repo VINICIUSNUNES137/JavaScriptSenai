@@ -97,7 +97,31 @@ app.get("/estado/sigla/:uf", cors(), async function( request, response, next){
   response.json(dadosEstado)
 })
 
-app.get("/capital/sigla-estado/:uf", cors(), async function( request, response, next){
+app.get("/dados-estado/sigla-estado/:uf", cors(), async function( request, response, next){
+  // '/:uf' é uma variavel utilizada para passagem de valor
+
+  // siglaEstado recebe o conteudo da variavel :uf
+  let siglaEstado = request.params.uf 
+  let statusCode
+  let dadosEstado = {}
+
+  if(siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)){
+    statusCode = 400
+    dadosEstado.message =  "Não é possível processar a requisição, pois a sigla do estado não foi informada ou não atende a quantidade de caracteres (2)."
+  }else{
+    let estado = estadosCidades.getDadosEstado(siglaEstado)
+      if(estado){
+        statusCode = 200
+        dadosEstado = estado
+      }else{
+        statusCode = 404
+      }
+  }
+  response.status(statusCode)
+  response.json(dadosEstado)
+})
+
+app.get("/capital/sigla-do-estado/:uf", cors(), async function( request, response, next){
   // '/:uf' é uma variavel utilizada para passagem de valor
 
   // siglaEstado recebe o conteudo da variavel :uf
@@ -135,6 +159,44 @@ app.get("/regioes/:regiao", cors(), async function( request, response, next){
     dadosEstado.message =  "Não é possível processar a requisição, pois a região não foi informada ou não atende."
   }else{
     let estado = estadosCidades.getEstadosRegiao(nomeRegiao)
+      if(estado){
+        statusCode = 200
+        dadosEstado = estado
+      }else{
+        statusCode = 404
+      }
+  }
+  response.status(statusCode)
+  response.json(dadosEstado)
+})
+
+
+app.get("/capitais", cors(), async function (request, response, next) {
+  
+  let listaDeCapitais = estadosCidades.getCapitalPais()
+
+  if(listaDeCapitais){
+    response.json(listaDeCapitais);
+    response.status(200);
+  }else{
+    response.status(500)
+  }
+})
+
+
+app.get("/cidades/:uf", cors(), async function( request, response, next){
+  // '/:uf' é uma variavel utilizada para passagem de valor
+
+  // siglaEstado recebe o conteudo da variavel :uf
+  let siglaEstado = request.params.uf 
+  let statusCode
+  let dadosEstado = {}
+
+  if(siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)){
+    statusCode = 400
+    dadosEstado.message =  "Não é possível processar a requisição, pois a sigla do estado não foi informada ou não atende a quantidade de caracteres (2)."
+  }else{
+    let estado = estadosCidades.getCidades(siglaEstado)
       if(estado){
         statusCode = 200
         dadosEstado = estado
