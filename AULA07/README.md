@@ -33,4 +33,6 @@
 
 ## **AUTOR**
 
-- [VINICIUS NUNES](https://github.com/VINICIUSNUNES137)
+| NOMES                                                                                                                                                                                      |                                                     GITHUB                                                      |                                       FOTO                                       |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
+| <a href="https://github.com/VINICIUSNUNES137"><img src="https://img.shields.io/badge/DESENVOLVEDOR-VINICIUS%20NUNES-informational?style=for-the-badge&logo=appveyorlabelColor=FF00FF"></a> | <a href="https://github.com/VINICIUSNUNES137"><img src="https://skillicons.dev/icons?i=github&theme=dark"/></a> | <img src="https://avatars.githubusercontent.com/u/90266473?v=4" height="50"></a> |

@@ -59,7 +59,7 @@ app.use((request, response, next) => {
 
 //criar a string abaixo com (/) e sem espaços, minusculo e sem caractere especial
 //endPoint para listar os Estados
-app.get("/estados", cors(), async function (request, response, next) {
+app.get("/v1/senai/estados", cors(), async function (request, response, next) {
   
     let listaDeEstados = estadosCidades.getListaDeEstados()
 
@@ -73,7 +73,7 @@ app.get("/estados", cors(), async function (request, response, next) {
 
 //endPoint para listar as caracteristicas do estado pela sigla informada
 
-app.get("/estado/sigla/:uf", cors(), async function( request, response, next){
+app.get("/v1/senai/estado/sigla/:uf", cors(), async function( request, response, next){
   // '/:uf' é uma variavel utilizada para passagem de valor
 
   // siglaEstado recebe o conteudo da variavel :uf
@@ -97,7 +97,7 @@ app.get("/estado/sigla/:uf", cors(), async function( request, response, next){
   response.json(dadosEstado)
 })
 
-app.get("/dados-estado/sigla-estado/:uf", cors(), async function( request, response, next){
+app.get("/v1/senai/dados-estado/sigla-estado/:uf", cors(), async function( request, response, next){
   // '/:uf' é uma variavel utilizada para passagem de valor
 
   // siglaEstado recebe o conteudo da variavel :uf
@@ -121,7 +121,7 @@ app.get("/dados-estado/sigla-estado/:uf", cors(), async function( request, respo
   response.json(dadosEstado)
 })
 
-app.get("/capital/sigla-do-estado/:uf", cors(), async function( request, response, next){
+app.get("/v1/senai/capital/sigla-do-estado/:uf", cors(), async function( request, response, next){
   // '/:uf' é uma variavel utilizada para passagem de valor
 
   // siglaEstado recebe o conteudo da variavel :uf
@@ -146,7 +146,7 @@ app.get("/capital/sigla-do-estado/:uf", cors(), async function( request, respons
 })
 
 
-app.get("/regioes/:regiao", cors(), async function( request, response, next){
+app.get("/v1/senai/regioes/:regiao", cors(), async function( request, response, next){
   // '/:uf' é uma variavel utilizada para passagem de valor
 
   // siglaEstado recebe o conteudo da variavel :uf
@@ -171,7 +171,7 @@ app.get("/regioes/:regiao", cors(), async function( request, response, next){
 })
 
 
-app.get("/capitais", cors(), async function (request, response, next) {
+app.get("/v1/senai/capitais", cors(), async function (request, response, next) {
   
   let listaDeCapitais = estadosCidades.getCapitalPais()
 
@@ -184,7 +184,7 @@ app.get("/capitais", cors(), async function (request, response, next) {
 })
 
 
-app.get("/cidades/:uf", cors(), async function( request, response, next){
+app.get("/v1/senai/cidades/:uf", cors(), async function( request, response, next){
   // '/:uf' é uma variavel utilizada para passagem de valor
 
   // siglaEstado recebe o conteudo da variavel :uf
@@ -208,6 +208,37 @@ app.get("/cidades/:uf", cors(), async function( request, response, next){
   response.json(dadosEstado)
 })
 
+//endpoint lista de cidades filtrada pela sigla dos estados
+
+app.get('/v1/senai/cidades', cors(), async function(request, response, next){
+  
+  /**
+   *  Usei a query para receber diversas variaveis para realizar filtros,
+   * também usei o paramas para receber o ID (PK), 
+   * 
+   * 
+   */
+  // Recebe o valor da váriavel que é enviada por QueryString
+  let siglaEstado = request.query.uf
+
+    let statusCode
+  let dadosCidade = {}
+
+  if(siglaEstado == '' || siglaEstado == undefined || siglaEstado.length != 2 || !isNaN(siglaEstado)){
+    statusCode = 400
+    dadosCidade.message =  "Não é possível processar a requisição, pois a sigla do estado não foi informada ou não atende a quantidade de caracteres (2)."
+  }else{
+    let cidade = estadosCidades.getCidades(siglaEstado)
+      if(cidade){
+        statusCode = 200
+        dadosCidade = cidade
+      }else{
+        statusCode = 404
+      }
+  }
+  response.status(statusCode)
+  response.json(dadosCidade)
+})
 
 //Permite carregar os endpoints criados e aguardar as requisições pelo protocolo HTTP na porta 8080
 app.listen(8080, function () {
