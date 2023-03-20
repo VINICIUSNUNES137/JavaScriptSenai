@@ -22611,7 +22611,13 @@ function getCidades(uf){
             estado.cidades.forEach(function(cidades){
                 cidadesGuardar.push(cidades.nome)
             })
-            paiJson = {uf: estado.sigla, descricao: estado.nome, quantidade_cidades: estado.cidades.length, cidades: cidadesGuardar}
+            paiJson = {
+                uf: estado.sigla, 
+                descricao: estado.nome, 
+                regiao: estado.regiao, //adicionado p/ projeto do leonid
+                capital: estado.capital,
+                quantidade_cidades: estado.cidades.length, 
+                cidades: cidadesGuardar}
 
             status = true
         }
