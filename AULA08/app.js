@@ -4,6 +4,10 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
+const message = require("./controller/modulo/config.js");
+
+
+
 //Cria um objeto com as informações da classe express
 const app = express()
 
@@ -66,9 +70,17 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 
 })
 
-//EndPoint: Inseri um novo aluno
+//EndPoint: Insere um novo aluno
+//adicionado o objeto body json
 app.post('/v1/lion-school/aluno', cors(), bodyJson, async function(request, response) {
     
+    let contentType = request.headers['content-type']
+
+    if(contentType == 'application/json'){
+    
+    console.log(contentType);
+    
+
     //Recebe os dados encaminhados no body da requisição
     let dadosBody = request.body
 
@@ -83,16 +95,38 @@ app.post('/v1/lion-school/aluno', cors(), bodyJson, async function(request, resp
     
     response.status(resultInsertData.status)
     response.json(resultInsertData)
+    }else{
+        response.status(message.ERROR_CONTENT_TYPE.status)
+        response.json(message.ERROR_CONTENT_TYPE)
+    }
 
 })
 
 //EndPoint: Atualiza um aluno pelo id
-app.put('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
+app.put('/v1/lion-school/aluno/:id', cors(), bodyJson, async function(request, response) {
+    let dadosBody = request.body
+    let idAluno = request.params.id
+
+    let resultUpdateData = await controllerAluno.atualizarAluno(dadosBody, idAluno)
+
+    response.status(resultUpdateData.status)
+    response.json(resultUpdateData)
+
 
 })
 
 //EndPoint: Deleta um aluno pelo id
 app.delete('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
+    
+    
+
+    let idAluno = request.params.id
+
+    let resultUpdateData = await controllerAluno.deletarAluno(idAluno)
+
+    response.status(resultUpdateData.status)
+    response.json(resultUpdateData)
+
 
 })
 

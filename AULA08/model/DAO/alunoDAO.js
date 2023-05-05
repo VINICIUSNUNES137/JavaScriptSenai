@@ -36,8 +36,6 @@ const insertAluno = async function (dadosAluno) {
                                         "${dadosAluno.email}"
                                     )`
 
-                                    console.log(sql);
-
     //Executa o script SQL no BD onde recebemos o retorno se deu certo ou não                                    
     let result = await prisma.$executeRawUnsafe(sql)
 
@@ -51,10 +49,39 @@ const insertAluno = async function (dadosAluno) {
 }
 
 //Função para atualizar um registro do Banco de Dados
-const updateAluno = function (dadosAluno) {};
+const updateAluno = async function (dadosAluno) {
+  let sql = `
+    update tbl_aluno set
+            nome = '${dadosAluno.nome}',
+            rg = '${dadosAluno.rg}',
+            cpf = '${dadosAluno.cpf}',
+            data_nascimento = '${dadosAluno.data_nascimento}',
+            email = '${dadosAluno.email}'
+            where id = ${dadosAluno.id}
+  `
+
+  let result = await prisma.$executeRawUnsafe(sql)
+
+  if(result){
+    return true
+  }else{
+    return false
+  }
+
+};
 
 //Função para deletar um registro do Banco de Dados
-const deleteAluno = function (id) {};
+const deleteAluno = async function (id) {
+  let sql = `delete from tbl_aluno where id=${id}`
+
+  let result = await prisma.$executeRawUnsafe(sql)
+
+  if(result){
+    return true
+  }else{
+    return false
+  }
+};
 
 //Função para retornar todos os registros do Banco de Dados
 const selectAllAluno = async function () {
@@ -85,5 +112,7 @@ const selectByIdAluno = function (id) {};
 
 module.exports = {
   selectAllAluno,
-  insertAluno
+  insertAluno,
+  updateAluno,
+  deleteAluno
 };
