@@ -55,19 +55,20 @@ app.get('/v1/lion-school/aluno', cors(), async function(request, response) {
     let dados = await controllerAluno.selecionarTodosAluno()
 
     //Valida se existem registros para retornar na requisição
-    if(dados){
-        response.status(200)
-        response.json(dados)
-    }else{
-        response.status(404)
-        response.json()
-    }
-
+    response.status(dados.status)
+    response.json(dados)
 })
 
 //EndPoint: Retorna dados do aluno pelo ID
 app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
+    
+    let idAluno = request.params.id
+    
+    let dados = await controllerAluno.buscarIdAluno(idAluno)
 
+    //Valida se existem registros para retornar na requisição
+    response.status(dados.status)
+    response.json(dados)
 })
 
 //EndPoint: Insere um novo aluno
@@ -118,13 +119,23 @@ app.put('/v1/lion-school/aluno/:id', cors(), bodyJson, async function(request, r
 //EndPoint: Deleta um aluno pelo id
 app.delete('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
     
-    
 
     let idAluno = request.params.id
 
     let resultUpdateData = await controllerAluno.deletarAluno(idAluno)
 
     response.status(resultUpdateData.status)
+    response.json(resultUpdateData)
+
+
+})
+
+app.delete('/v1/lion-school/aluno/nome', cors(), async function(request, response) {
+    let query = request.query.nome
+
+    let resultUpdateData = await controllerAluno.selecionarAlunoPeloNome(query)
+
+    response.status(resultUpdateData)
     response.json(resultUpdateData)
 
 

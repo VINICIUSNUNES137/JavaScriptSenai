@@ -36,10 +36,17 @@ const inserirAluno = async function (dadosAluno) {
     let status = await alunoDAO.insertAluno(dadosAluno);
 
     console.log(status);
-    
+
 
     if (status) {
-      return message.CREATED_ITEM;
+      let dadosJSON = {};
+      let idNovoAluno = await alunoDAO.selectLastId();
+      dadosAluno.id = idNovoAluno;
+
+      dadosJSON.status = message.CREATED_ITEM.status
+      dadosJSON.aluno = dadosAluno;
+
+      return dadosJSON;
     } else {
       return message.ERROR_INTERNAL_SERVER;
     }
@@ -66,18 +73,26 @@ const atualizarAluno = async function (dadosAluno, idAluno) {
     dadosAluno.email.length > 250
   ) {
     return message.ERRO_REQUIRED_DATA
-  } else if(idAluno == '' || idAluno == undefined || isNaN(idAluno)) {
+  } else if (idAluno == '' || idAluno == undefined || isNaN(idAluno)) {
     return message.ERRO_REQUIRED_ID
-  } else{
+  } else {
     //Adiciona o ID no JSON com todos os dados
     dadosAluno.id = idAluno
 
     //Encaminha para o DAO os dados para serem alterados
     let status = await alunoDAO.updateAluno(dadosAluno)
 
-    if(status){
-      return message.UPDATED_ITEM
-    }else{
+    if (status) {
+
+      let dadosJSON = {};
+
+
+      dadosJSON.status = message.FOUND_ITEM.status
+      dadosJSON.aluno = dadosAluno;
+
+      return dadosJSON;
+
+    } else {
       return message.ERROR_INTERNAL_SERVER
     }
   }
@@ -86,14 +101,14 @@ const atualizarAluno = async function (dadosAluno, idAluno) {
 
 //função para receber os dados do APP e enviar para a model para excluir um item existente
 const deletarAluno = async function (id) {
-   if(id == '' || id == undefined || isNaN(id)) {
+  if (id == '' || id == undefined || isNaN(id)) {
     return message.ERRO_REQUIRED_ID
-  } else{
+  } else {
     let status = await alunoDAO.deleteAluno(id)
 
-    if(status){
+    if (status) {
       return message.DELETED_ITEM
-    }else{
+    } else {
       return message.ERROR_INTERNAL_SERVER
     }
   }
@@ -115,19 +130,67 @@ const selecionarTodosAluno = async function () {
   //Valida se o BD teve registros
   if (dadosAluno) {
     //Adiciona o ARRAY de alunos em um JSON para retornar ao APP
+    dadosJSON.status = 200
+    dadosJSON.count = dadosAluno.length
     dadosJSON.alunos = dadosAluno;
     return dadosJSON;
   } else {
-    return false;
+    return message.ERROR_NOT_FOUND;
   }
 };
 
 //função para buscar um item filtrando pelo ID, que será encaminhado pela model
-const buscarIdAluno = function (id) {};
+const buscarIdAluno = async function (id) {
+
+  if (id == '' || id == undefined || isNaN(id)) {
+    return message.ERRO_REQUIRED_ID
+  } else {
+
+    let dadosAluno = await alunoDAO.selectByIdAluno(id);
+
+    //Cria um objeto do tipo JSON
+    let dadosJSON = {};
+
+    //Valida se o BD teve registros
+    if (dadosAluno) {
+      //Adiciona o ARRAY de alunos em um JSON para retornar ao APP
+      dadosJSON.status = 200
+      dadosJSON.alunos = dadosAluno;
+      return dadosJSON;
+    } else {
+      return message.ERROR_NOT_FOUND;
+    }
+  }
+};
+
+const selecionarAlunoPeloNome = async function (nome) {
+
+
+  //Encaminha para o DAO os dados para serem alterados
+  let dadosAluno = await alunoDAO.likeAlunoByName(nome)
+
+  console.log(dadosAluno);
+
+
+  if (dadosAluno) {
+    let dadosJSON = {};
+    dadosJSON.status = message.FOUND_ITEM.status
+    dadosJSON.aluno = dadosAluno;
+
+    return dadosJSON;
+  } else {
+    return message.ERROR_NOT_FOUND
+  }
+}
+
+// selecionarAlunoPeloNome()
+
 
 module.exports = {
   selecionarTodosAluno,
   inserirAluno,
   atualizarAluno,
-  deletarAluno
+  deletarAluno,
+  buscarIdAluno,
+  selecionarAlunoPeloNome
 };

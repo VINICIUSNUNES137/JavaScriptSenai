@@ -58,4 +58,3 @@ update tbl_aluno set email = 'jose@hotmail.com' where id = 1;
 #Exclui o registro
 delete from tbl_aluno where id=4;
 
-

@@ -14,7 +14,8 @@
  */
 
 //import da biblioteca do prisma client (responsável por manipular dados no BD)
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, Tbl_teste_prismaScalarFieldEnum } = require("@prisma/client");
+const { Sql } = require("@prisma/client/runtime");
 
 //Instancia da classe do PrismaClient
 const prisma = new PrismaClient();
@@ -97,8 +98,6 @@ const selectAllAluno = async function () {
   //$queryRaw() é utilizado quando o script é diretamente implementado no metódo, ex:[ $queryRaw('select * from tbl_aluno) ]
   let rsAluno = await prisma.$queryRawUnsafe(sql);
 
-  console.log(rsAluno);
-
   //Valida se o BD retornou algum registro
   if (rsAluno.length > 0) {
     return rsAluno;
@@ -108,11 +107,63 @@ const selectAllAluno = async function () {
 };
 
 //Função para retornar um registro filtrado pelo id do Banco de Dados
-const selectByIdAluno = function (id) {};
+const selectByIdAluno = async function (id) {
+
+  let sql = `select * from tbl_aluno where id = ${id}`;
+
+  //Executa no BD o script e guarda na variável rsAluno
+  //$queryRawUnsafe() é utilizado com o script está em uma variável
+  //$queryRaw() é utilizado quando o script é diretamente implementado no metódo, ex:[ $queryRaw('select * from tbl_aluno where id = 1) ]
+  let rsAluno = await prisma.$queryRawUnsafe(sql);
+
+  //Valida se o BD retornou algum registro
+  if (rsAluno.length > 0) {
+    return rsAluno;
+  } else {
+    return false;
+  }
+
+};
+
+const selectLastId = async function() {
+
+  //Script para inserir o último dado inserido na tabela
+  let sql = 'select id from tbl_aluno order by id desc limit 1';
+
+  let rsAluno = await prisma.$queryRawUnsafe(sql);
+
+  if(rsAluno.length > 0 ){
+    return rsAluno[0].id
+  }else{
+    return false
+  }
+
+}
+
+const likeAlunoByName = async function(name){
+
+  let sql = `select * from tbl_aluno where nome like '%${name}%'`
+  console.log(sql);
+
+  let rsAluno = await prisma.$queryRawUnsafe(sql);
+
+  
+  if(rsAluno.length > 0){
+    return rsAluno
+  }else{
+    return false
+  }
+
+}
+
+// likeAlunoByName('mauricio')
 
 module.exports = {
   selectAllAluno,
   insertAluno,
   updateAluno,
-  deleteAluno
+  deleteAluno,
+  selectByIdAluno,
+  selectLastId,
+  likeAlunoByName
 };
